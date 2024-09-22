@@ -1,0 +1,55 @@
+<div class="add-user-view-wrapper">
+  <!-- title -->
+  <h1>Add person form</h1>
+
+  <!-- user form -->
+  <mat-card>
+    <mat-card-content>
+      @if (userForm) {
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form d-flex flex-column">
+          <!-- name -->
+          <mat-form-field appearance="outline" class="mb-2 user-form-field">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Name" [formControl]="userForm.controls.name">
+            @if (userForm.controls.name.errors?.required) {
+              <mat-error>Name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- birthdate -->
+          <mat-form-field appearance="outline" class="user-form-field">
+            <mat-label>Birthdate</mat-label>
+            <input matInput [matDatepicker]="picker" [max]="maxDate" [formControl]="userForm.controls.birthdate">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <!-- addresses -->
+          <div>
+            <h2>Addresses:</h2>
+
+            <div class="d-flex gap-3 flex-wrap">
+              @for (addressForm of userForm.controls.addresses.controls; let index = $index; track index) {
+                <div>
+                  <app-address-form [addressForm]="addressForm" [countriesOptions]="countries" [(citiesOptions)]="citiesOptions" />
+
+                  <!-- remove address -->
+                  <button mat-flat-button color="warn" class="user-form-button mb-4 mt-3" [disabled]="index === 0" (click)="removeAddress(index)">
+                    Remove Address
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- add address -->
+          <button mat-flat-button color="primary" class="user-form-button mb-4" (click)="addAddress()">Add Address
+          </button>
+
+          <!-- save -->
+          <button mat-flat-button color="primary" type="submit" class="user-form-button" [disabled]="userForm.invalid">Save</button>
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

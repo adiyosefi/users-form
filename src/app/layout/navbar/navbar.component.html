@@ -1,0 +1,20 @@
+<mat-toolbar class="navbar-wrapper" color="primary">
+  <span class="fill-remaining-space">
+    <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <span (mouseleave)="menuTrigger.closeMenu()">
+      <a mat-menu-item routerLink="/list-of-users">
+         <mat-icon fontIcon="home"></mat-icon>
+        <span>List of people</span>
+  </a>
+  <a mat-menu-item routerLink="/add-user">
+        <mat-icon fontIcon="people_outline"></mat-icon>
+        <span>Add person form</span>
+      </a>
+  </span>
+  </mat-menu>
+  </span>
+  <span class="fill-remaining-space">Sealights people management</span>
+</mat-toolbar>

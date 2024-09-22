@@ -1,0 +1,46 @@
+<div class="list-of-users-view-wrapper">
+  <!-- title -->
+  <h1>List of people</h1>
+
+  <div>
+    <!-- table -->
+    <table mat-table [dataSource]="persons">
+      <!-- columns -->
+      <!-- id -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> id.</th>
+        <td mat-cell *matCellDef="let user"> {{ user.id }}</td>
+      </ng-container>
+
+      <!-- name -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name</th>
+        <td mat-cell *matCellDef="let user"> {{ user.name }}</td>
+      </ng-container>
+
+      <!-- birthdate -->
+      <ng-container matColumnDef="birthdate">
+        <th mat-header-cell *matHeaderCellDef> Birthdate</th>
+        <td mat-cell *matCellDef="let user"> {{ user.birthdate || '-' }}</td>
+      </ng-container>
+
+      <!-- addresses count -->
+      <ng-container matColumnDef="addresses">
+        <th mat-header-cell *matHeaderCellDef> Addresses count.</th>
+        <td mat-cell *matCellDef="let user"> {{ user.addresses.length }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- paginator -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+
+  <!-- add user link -->
+  <a mat-flat-button color="primary" routerLink="/add-user">Add new user</a>
+</div>
