@@ -4,7 +4,6 @@ import { AddressFormComponent } from './address-form.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {FormControl, FormGroup} from "@angular/forms";
 import {IAddressFormModel} from "../../models/i-address-form.model";
-import {ICountryModel} from "../../../../api/countries/models/i-country.model";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {CitiesService} from "../../../../api/cities/services/cities.service";
 import {ICityModel} from "../../../../api/cities/models/i-city.model";
@@ -17,11 +16,6 @@ describe('AddressFormComponent', () => {
   let citiesService: CitiesService;
   let mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
   let dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
-
-  const countriesData: ICountryModel[] = [
-    { id: 1, name: 'Country 1' },
-    { id: 2, name: 'Country 2' }
-  ];
 
   const citiesData: ICityModel[] = [
     { id: 1, name: 'City 1', countryId: 1 },
@@ -175,5 +169,14 @@ describe('AddressFormComponent', () => {
     spyOn(component.addressForm, 'enable').and.callThrough();
     component.setDisabledState(false);
     expect(component.addressForm.enable).toHaveBeenCalled();
+  });
+
+  it('should register onTouched callback correctly', () => {
+    const onTouchedSpy = jasmine.createSpy('onTouched');
+
+    component.registerOnTouched(onTouchedSpy);
+    component.onTouched();
+
+    expect(onTouchedSpy).toHaveBeenCalled();
   });
 });

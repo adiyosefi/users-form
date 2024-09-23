@@ -3,7 +3,7 @@
     <!-- name -->
     <mat-form-field appearance="outline" class="mb-2 address-form-field">
       <mat-label>Name</mat-label>
-      <input matInput placeholder="Name" [formControl]="addressForm.controls.name">
+      <input matInput placeholder="Name" [formControl]="addressForm.controls.name" (blur)="onTouched()">
       @if (addressForm.controls.name.errors?.required) {
         <mat-error>Name is required</mat-error>
       }
@@ -12,7 +12,7 @@
     <!-- country -->
     <mat-form-field appearance="outline" class="mb-2 address-form-field">
       <mat-label>Select country</mat-label>
-      <mat-select [formControl]="addressForm.controls.country">
+      <mat-select [formControl]="addressForm.controls.country" (blur)="onTouched()">
         @for (country of countriesOptions; track country.id) {
           <mat-option [value]="{id: country.id, name: country.name}">{{ country.name }}</mat-option>
         }
@@ -23,7 +23,7 @@
     <div>
       <mat-form-field appearance="outline" class="mb-2 address-form-field">
         <mat-label>Select city</mat-label>
-        <mat-select [formControl]="addressForm.controls.cityId">
+        <mat-select [formControl]="addressForm.controls.cityId" (blur)="onTouched()">
           @for (city of citiesOptions[addressForm.controls.country.value?.id]; track city.id) {
             <mat-option [value]="city.id">{{ city.name }}</mat-option>
           }
@@ -35,7 +35,7 @@
     <!-- street -->
     <mat-form-field appearance="outline" class="address-form-field">
       <mat-label>Street</mat-label>
-      <input matInput placeholder="Street" [formControl]="addressForm.controls.street">
+      <input matInput placeholder="Street" [formControl]="addressForm.controls.street" (blur)="onTouched()">
       @if (addressForm.controls.street.errors?.required) {
         <mat-error>Street is required</mat-error>
       }

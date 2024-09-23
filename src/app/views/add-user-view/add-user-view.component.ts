@@ -69,29 +69,33 @@ export class AddUserViewComponent implements OnInit {
   /* users form */
   initUsersForm(): void {
     this.userForm = new FormGroup<IUserFormModel>({
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', Validators.required),
       birthdate: new FormControl(null),
       addresses: new FormArray<FormGroup<IAddressFormModel>>([this.createAddressFormGroup()]) // at least one address
-    })
+    });
   }
 
   onSubmit(): void {
     // handle form submission
     if (this.userForm.valid) {
-      const formValue = this.userForm.value;
-      const newPerson: IPersonModel = {
-        id: null,
-        name: formValue.name,
-        birthdate: this.datePipe.transform(formValue.birthdate),
-        addresses: formValue.addresses.map(address => ({
-          name: address.name,
-          countrId: address.country?.id,
-          cityId: address.cityId,
-          street: address.street
-        }))
-      };
+      const newPerson: IPersonModel = this.mapUserFormValueToUser();
       this.personService.addPerson(newPerson).subscribe(() => this.navigateToUsersListPage())
     }
+  }
+
+  mapUserFormValueToUser(): IPersonModel {
+    const formValue = this.userForm.value;
+    return {
+      id: null,
+      name: formValue.name,
+      birthdate: this.datePipe.transform(formValue.birthdate),
+      addresses: formValue.addresses.map(address => ({
+        name: address.name,
+        countrId: address.country?.id,
+        cityId: address.cityId,
+        street: address.street
+      }))
+    };
   }
   /* users form - end */
 

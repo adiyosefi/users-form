@@ -47,6 +47,8 @@ export class AddressFormComponent implements OnInit, OnDestroy, ControlValueAcce
   // outputs
   @Output() citiesOptionsChange: EventEmitter<Record<string, ICityModel[]>> = new EventEmitter<Record<string, ICityModel[]>>();
 
+  private onTouchedCallback: () => void = () => {};
+
   // unsubscribe
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -63,25 +65,27 @@ export class AddressFormComponent implements OnInit, OnDestroy, ControlValueAcce
   }
 
   /* control value accessor methods */
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (v: any) => void): void {
     this.addressForm.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(fn);
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
+    this.onTouchedCallback = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.addressForm.disable();
-    } else {
-      this.addressForm.enable();
-    }
+    isDisabled ? this.addressForm.disable() : this.addressForm.enable();
   }
 
   writeValue(value: any): void {
     if (value) {
       this.addressForm.patchValue(value);
     }
+  }
+
+  // called when any form field loses focus (blur event)
+  onTouched(): void {
+    this.onTouchedCallback();
   }
   /* control value accessor methods - end */
 
@@ -99,7 +103,7 @@ export class AddressFormComponent implements OnInit, OnDestroy, ControlValueAcce
   afterCloseAddCityDialog(dialogRef: MatDialogRef<AddCityDialogComponent, any>): void {
     dialogRef.afterClosed().subscribe(newCityName => {
       if (newCityName) {
-        this.getCitiesByCountryId(this.addressForm.controls.country.value.id, newCityName); // on add city success, refresh cities array
+        this.getCitiesByCountryId(this.addressForm.controls.country.value.id, newCityName); // on add city success, refresh cities array and update value to new city
       }
     });
   }
