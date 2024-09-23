@@ -1,8 +1,11 @@
 <div class="add-city-dialog-wrapper">
+  <!-- title -->
   <h1 mat-dialog-title>Add city to {{ data.country.name }}</h1>
+  <!-- content -->
   <div mat-dialog-content>
     @if (cityForm) {
       <form [formGroup]="cityForm">
+        <!-- city name -->
         <mat-form-field>
           <mat-label>City name</mat-label>
           <input matInput formControlName="cityName" placeholder="City name">
@@ -14,7 +17,9 @@
     }
   </div>
   <div mat-dialog-actions>
+    <!-- cancel -->
     <button mat-button (click)="onCancel()">Cancel</button>
+    <!-- save -->
     <button mat-button (click)="onSave()" [disabled]="cityForm.invalid">Ok</button>
   </div>
 </div>
