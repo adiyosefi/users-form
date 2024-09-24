@@ -1,8 +1,8 @@
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
-import {IAddressFormModel} from "./i-address-form.model";
+import {FormArray, FormControl} from "@angular/forms";
+import {IAddressFormValueModel} from "./i-address-form-value.model";
 
 export interface IUserFormModel {
   name: FormControl<string>;
   birthdate: FormControl<Date>;
-  addresses: FormArray<FormGroup<IAddressFormModel>>;
+  addresses: FormArray<FormControl<IAddressFormValueModel>>;
 }

@@ -79,8 +79,7 @@ describe('AddUserViewComponent', () => {
   it('should submit the form if valid and call add person api', () => {
     component.userForm.controls.name.setValue('John Doe');
     component.userForm.controls.birthdate.setValue(new Date('1990-01-01'));
-    component.userForm.controls.addresses.controls[0].controls.name.setValue('Home');
-    component.userForm.controls.addresses.controls[0].controls.street.setValue('123 Main St');
+    component.userForm.controls.addresses.controls[0].setValue({name: 'Home', street: '123 Main St'});
 
     component.onSubmit();
 

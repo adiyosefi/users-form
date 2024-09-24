@@ -11,13 +11,14 @@ import {
 } from "@angular/material/datepicker";
 import {MatAnchor, MatButton} from "@angular/material/button";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {IAddressFormModel} from "./models/i-address-form.model";
 import {AddressFormComponent} from "./components/address-form/address-form.component";
 import {ICountryModel} from "../../api/countries/models/i-country.model";
 import {PersonService} from "../../api/persons/services/person.service";
 import {IPersonModel} from "../../api/persons/models/i-person.model";
 import {DatePipe} from "@angular/common";
 import {ICityModel} from "../../api/cities/models/i-city.model";
+import {addressValidator} from "./validators/address.validator";
+import {IAddressFormValueModel} from "./models/i-address-form-value.model";
 
 @Component({
   selector: 'app-add-user-view',
@@ -71,7 +72,7 @@ export class AddUserViewComponent implements OnInit {
     this.userForm = new FormGroup<IUserFormModel>({
       name: new FormControl('', Validators.required),
       birthdate: new FormControl(null),
-      addresses: new FormArray<FormGroup<IAddressFormModel>>([this.createAddressFormGroup()]) // at least one address
+      addresses: new FormArray<FormControl<IAddressFormValueModel>>([this.createAddressFormControl()], addressValidator()) // at least one address
     });
   }
 
@@ -100,17 +101,17 @@ export class AddUserViewComponent implements OnInit {
   /* users form - end */
 
   /* address form */
-  createAddressFormGroup(): FormGroup {
-    return new FormGroup<IAddressFormModel>({
-      name: new FormControl('', Validators.required),
-      country: new FormControl(null),
-      cityId: new FormControl({value: null, disabled: true}),
-      street: new FormControl('', Validators.required)
-    });
+  createAddressFormControl(): FormControl<IAddressFormValueModel> {
+    return new FormControl<IAddressFormValueModel>({
+      name: '',
+      country: null,
+      cityId: null,
+      street: ''
+    }, );
   }
 
   addAddress(): void {
-    this.userForm.controls.addresses.push(this.createAddressFormGroup());
+    this.userForm.controls.addresses.push(this.createAddressFormControl());
   }
 
   removeAddress(index: number): void {

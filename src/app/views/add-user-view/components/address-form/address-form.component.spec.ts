@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddressFormComponent } from './address-form.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {FormControl, FormGroup} from "@angular/forms";
-import {IAddressFormModel} from "../../models/i-address-form.model";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {CitiesService} from "../../../../api/cities/services/cities.service";
 import {ICityModel} from "../../../../api/cities/models/i-city.model";
@@ -22,12 +20,7 @@ describe('AddressFormComponent', () => {
     { id: 2, name: 'City 2', countryId: 2 }
   ];
 
-  const mockAddressForm = new FormGroup<IAddressFormModel>({
-    name: new FormControl(''),
-    country: new FormControl(null),
-    cityId: new FormControl(null),
-    street: new FormControl(''),
-  });
+  const countryValue = { id: 1, name: 'Country 1' };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,8 +35,6 @@ describe('AddressFormComponent', () => {
 
     component = fixture.componentInstance;
 
-    component.addressForm = mockAddressForm;
-
     fixture.detectChanges();
   });
 
@@ -53,34 +44,23 @@ describe('AddressFormComponent', () => {
 
   it('should listen to country value changes and fetch cities', () => {
     spyOn(citiesService, 'getCitiesByCountryId').and.returnValue(of(citiesData));
-    const countryValue = { id: 1, name: 'Country 1' };
 
+    component.country = countryValue;
     component.listenToCountryValueChange();
-    component.addressForm.controls.country.setValue(countryValue);
 
     expect(citiesService.getCitiesByCountryId).toHaveBeenCalledWith(1);
   });
 
   it('should reset city when country changes', () => {
+    component.cityId = 1;
+    component.country = null;
     component.listenToCountryValueChange();
-    component.addressForm.controls.cityId.setValue(1);
-    component.addressForm.controls.country.setValue(null);
 
-    expect(component.addressForm.controls.cityId.value).toBeNull();
-    expect(component.addressForm.controls.cityId.disabled).toBeTrue();
-  });
-
-  it('should enable cityId if cities exist', () => {
-    component.enableDisableCityIfCitiesOptionsExist(citiesData);
-    expect(component.addressForm.controls.cityId.enabled).toBeTrue();
-  });
-
-  it('should disable cityId if no cities exist', () => {
-    component.enableDisableCityIfCitiesOptionsExist([]);
-    expect(component.addressForm.controls.cityId.disabled).toBeTrue();
+    expect(component.cityId).toBeNull();
   });
 
   it('should open the add city dialog', () => {
+    component.country = countryValue;
     mockDialog.open.and.returnValue(dialogRefSpy);
     dialogRefSpy.afterClosed.and.returnValue(of('New City'));
 
@@ -92,8 +72,7 @@ describe('AddressFormComponent', () => {
   it('should call get cities from api after closing add city dialog with new city name', () => {
     spyOn(citiesService, 'getCitiesByCountryId').and.returnValue(of(citiesData));
 
-    const countryValue = { id: 1, name: 'Country 1' };
-    component.addressForm.controls.country.setValue(countryValue);
+    component.country = countryValue;
 
     mockDialog.open.and.returnValue(dialogRefSpy);
     dialogRefSpy.afterClosed.and.returnValue(of('New City'));
@@ -128,47 +107,39 @@ describe('AddressFormComponent', () => {
     component.citiesOptions = { 1: citiesData };
     component.setNewlyAddedCityByName(1, 'City 1');
 
-    expect(component.addressForm.controls.cityId.value).toBe(1);
+    expect(component.cityId).toBe(1);
   });
 
   it('should not set city if newly added city does not exist', () => {
     component.citiesOptions = { 1: citiesData };
     component.setNewlyAddedCityByName(1, 'City 3');
 
-    expect(component.addressForm.controls.cityId.value).toBeFalsy();
+    expect(component.cityId).toBeFalsy();
   });
 
   it('should register value change subscription with ControlValueAccessor', () => {
     const onChangeFn = jasmine.createSpy('onChange');
     component.registerOnChange(onChangeFn);
 
-    component.addressForm.controls.street.setValue('New Street');
-    expect(onChangeFn).toHaveBeenCalledWith(component.addressForm.value);
+    component.street = 'New Street';
+    component.updateValue();
+    expect(onChangeFn).toHaveBeenCalledWith(component.gerFormValue());
   });
 
   it('should write form values using ControlValueAccessor', () => {
     const newValue = {
       name: 'name',
-      country: { id: 1, name: 'Country 1' },
+      country: countryValue,
       cityId: 1,
       street: 'New Street'
     };
 
     component.writeValue(newValue);
 
-    expect(component.addressForm.getRawValue()).toEqual(newValue);
-  });
-
-  it('should disable the form controls if setDisabledState is called with true', () => {
-    spyOn(component.addressForm, 'disable').and.callThrough();
-    component.setDisabledState(true);
-    expect(component.addressForm.disable).toHaveBeenCalled();
-  });
-
-  it('should enable the form controls if setDisabledState is called with false', () => {
-    spyOn(component.addressForm, 'enable').and.callThrough();
-    component.setDisabledState(false);
-    expect(component.addressForm.enable).toHaveBeenCalled();
+    expect(component.name).toEqual(newValue.name);
+    expect(component.country).toEqual(newValue.country);
+    expect(component.cityId).toEqual(newValue.cityId);
+    expect(component.street).toEqual(newValue.street);
   });
 
   it('should register onTouched callback correctly', () => {

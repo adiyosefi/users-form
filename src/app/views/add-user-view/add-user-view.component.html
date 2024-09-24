@@ -29,10 +29,10 @@
             <h2>Addresses:</h2>
 
             <div class="d-flex gap-3 flex-wrap">
-              @for (addressForm of userForm.controls.addresses.controls; let index = $index; track index) {
+              @for (addressControl of userForm.controls.addresses.controls; let index = $index; track index) {
                 <div>
                   <!-- address form -->
-                  <app-address-form [addressForm]="addressForm" [countriesOptions]="countries" [(citiesOptions)]="citiesOptions" />
+                  <app-address-form [formControl]="addressControl" [countriesOptions]="countries" [(citiesOptions)]="citiesOptions" />
 
                   <!-- remove address -->
                   <button mat-flat-button color="warn" class="user-form-button mb-4 mt-3" [disabled]="index === 0" (click)="removeAddress(index)">
