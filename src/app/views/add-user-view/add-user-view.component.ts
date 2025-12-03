@@ -10,7 +10,7 @@ import {
   MatDatepickerToggle
 } from "@angular/material/datepicker";
 import {MatAnchor, MatButton} from "@angular/material/button";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AddressFormComponent} from "./components/address-form/address-form.component";
 import {ICountryModel} from "../../api/countries/models/i-country.model";
 import {PersonService} from "../../api/persons/services/person.service";
@@ -34,7 +34,6 @@ import {IAddressFormValueModel} from "./models/i-address-form-value.model";
         MatDatepickerToggle,
         MatDatepicker,
         MatAnchor,
-        RouterLink,
         MatButton,
         AddressFormComponent
     ],
