@@ -13,24 +13,23 @@ import {ICityModel} from "../../../../api/cities/models/i-city.model";
 import {CitiesService} from "../../../../api/cities/services/cities.service";
 
 @Component({
-  selector: 'app-address-form',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    MatSelect,
-    MatOption,
-    MatButton
-  ],
-  providers: [
-    {provide: NG_VALUE_ACCESSOR, useExisting: AddressFormComponent, multi: true}
-  ],
-  templateUrl: './address-form.component.html',
-  styleUrl: './address-form.component.scss'
+    selector: 'app-address-form',
+    imports: [
+        FormsModule,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        ReactiveFormsModule,
+        MatSelect,
+        MatOption,
+        MatButton
+    ],
+    providers: [
+        { provide: NG_VALUE_ACCESSOR, useExisting: AddressFormComponent, multi: true }
+    ],
+    templateUrl: './address-form.component.html',
+    styleUrl: './address-form.component.scss'
 })
 export class AddressFormComponent implements ControlValueAccessor {
   // inputs

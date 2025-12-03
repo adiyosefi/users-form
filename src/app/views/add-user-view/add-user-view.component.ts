@@ -21,27 +21,26 @@ import {addressValidator} from "./validators/address.validator";
 import {IAddressFormValueModel} from "./models/i-address-form-value.model";
 
 @Component({
-  selector: 'app-add-user-view',
-  standalone: true,
-  imports: [
-    MatCard,
-    MatCardContent,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInput,
-    MatError,
-    MatLabel,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatDatepicker,
-    MatAnchor,
-    RouterLink,
-    MatButton,
-    AddressFormComponent
-  ],
-  providers: [DatePipe],
-  templateUrl: './add-user-view.component.html',
-  styleUrl: './add-user-view.component.scss'
+    selector: 'app-add-user-view',
+    imports: [
+        MatCard,
+        MatCardContent,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInput,
+        MatError,
+        MatLabel,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatDatepicker,
+        MatAnchor,
+        RouterLink,
+        MatButton,
+        AddressFormComponent
+    ],
+    providers: [DatePipe],
+    templateUrl: './add-user-view.component.html',
+    styleUrl: './add-user-view.component.scss'
 })
 export class AddUserViewComponent implements OnInit {
   // form

@@ -16,21 +16,20 @@ import {CityService} from "../../../../api/cities/services/city.service";
 import {ICityModel} from "../../../../api/cities/models/i-city.model";
 
 @Component({
-  selector: 'app-add-city-dialog',
-  standalone: true,
-  imports: [
-    MatDialogTitle,
-    MatDialogContent,
-    ReactiveFormsModule,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatError,
-    MatDialogActions,
-    MatButton
-  ],
-  templateUrl: './add-city-dialog.component.html',
-  styleUrl: './add-city-dialog.component.scss'
+    selector: 'app-add-city-dialog',
+    imports: [
+        MatDialogTitle,
+        MatDialogContent,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatError,
+        MatDialogActions,
+        MatButton
+    ],
+    templateUrl: './add-city-dialog.component.html',
+    styleUrl: './add-city-dialog.component.scss'
 })
 export class AddCityDialogComponent implements OnInit {
   cityForm: FormGroup<ICityFormModel>;
