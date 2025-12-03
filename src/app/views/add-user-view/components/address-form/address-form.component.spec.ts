@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddressFormComponent } from './address-form.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {CitiesService} from "../../../../api/cities/services/cities.service";
 import {ICityModel} from "../../../../api/cities/models/i-city.model";
 import {MatDialog} from "@angular/material/dialog";
 import {of, throwError} from "rxjs";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
@@ -24,9 +25,9 @@ describe('AddressFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddressFormComponent, HttpClientTestingModule],
-      providers: [provideAnimations(), { provide: MatDialog, useValue: mockDialog },]
-    })
+    imports: [AddressFormComponent],
+    providers: [provideAnimations(), { provide: MatDialog, useValue: mockDialog }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(),]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(AddressFormComponent);

@@ -1,13 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddUserViewComponent } from './add-user-view.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {ActivatedRoute, Router} from "@angular/router";
 import {provideNativeDateAdapter} from "@angular/material/core";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {ICountryModel} from "../../api/countries/models/i-country.model";
 import {PersonService} from "../../api/persons/services/person.service";
 import {of} from "rxjs";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AddUserViewComponent', () => {
   let component: AddUserViewComponent;
@@ -21,17 +22,19 @@ describe('AddUserViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddUserViewComponent, HttpClientTestingModule],
-      providers: [
+    imports: [AddUserViewComponent],
+    providers: [
         provideNativeDateAdapter(),
         provideAnimations(),
         {
-          provide: ActivatedRoute,
-          useValue: {snapshot: {data: {countries: countriesData}}},
+            provide: ActivatedRoute,
+            useValue: { snapshot: { data: { countries: countriesData } } },
         },
         { provide: Router, useValue: mockRouter },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(AddUserViewComponent);

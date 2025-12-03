@@ -2,10 +2,11 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AddCityDialogComponent} from './add-city-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {CityService} from "../../../../api/cities/services/city.service";
 import {of} from "rxjs";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AddCityDialogComponent', () => {
   let component: AddCityDialogComponent;
@@ -16,15 +17,17 @@ describe('AddCityDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddCityDialogComponent, HttpClientTestingModule],
-      providers: [
-        {provide: MatDialogRef, useValue: mockDialogRef}, {
-          provide: MAT_DIALOG_DATA,
-          useValue: {country: {id: 0, name: 'countryName'}},
+    imports: [AddCityDialogComponent],
+    providers: [
+        { provide: MatDialogRef, useValue: mockDialogRef }, {
+            provide: MAT_DIALOG_DATA,
+            useValue: { country: { id: 0, name: 'countryName' } },
         },
-        provideAnimations()
-      ]
-    })
+        provideAnimations(),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(AddCityDialogComponent);
