@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define a light theme
+$light-theme: mat.define-theme();
+
+// Apply the theme to all components
+@include mat.all-component-themes($light-theme);

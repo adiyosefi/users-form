@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {
   MatCell,
   MatCellDef,
@@ -31,7 +31,8 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
         RouterLink
     ],
     templateUrl: './list-of-users-view.component.html',
-    styleUrl: './list-of-users-view.component.scss'
+    styleUrl: './list-of-users-view.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListOfUsersViewComponent implements OnInit, AfterViewInit {
   // table data

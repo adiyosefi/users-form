@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule,} from "@angular/forms";
 import {IAddressFormValueModel} from "../../models/i-address-form-value.model";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
@@ -29,7 +29,8 @@ import {CitiesService} from "../../../../api/cities/services/cities.service";
         { provide: NG_VALUE_ACCESSOR, useExisting: AddressFormComponent, multi: true }
     ],
     templateUrl: './address-form.component.html',
-    styleUrl: './address-form.component.scss'
+    styleUrl: './address-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements ControlValueAccessor {
   // inputs

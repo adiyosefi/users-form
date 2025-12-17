@@ -1,14 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {IUserFormModel} from "./models/i-user-form.model";
 import {MatError, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {
-  MatDatepicker,
-  MatDatepickerInput,
-  MatDatepickerToggle
-} from "@angular/material/datepicker";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatAnchor, MatButton} from "@angular/material/button";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AddressFormComponent} from "./components/address-form/address-form.component";
@@ -21,25 +17,26 @@ import {addressValidator} from "./validators/address.validator";
 import {IAddressFormValueModel} from "./models/i-address-form-value.model";
 
 @Component({
-    selector: 'app-add-user-view',
-    imports: [
-        MatCard,
-        MatCardContent,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInput,
-        MatError,
-        MatLabel,
-        MatDatepickerInput,
-        MatDatepickerToggle,
-        MatDatepicker,
-        MatAnchor,
-        MatButton,
-        AddressFormComponent
-    ],
-    providers: [DatePipe],
-    templateUrl: './add-user-view.component.html',
-    styleUrl: './add-user-view.component.scss'
+  selector: 'app-add-user-view',
+  imports: [
+    MatCard,
+    MatCardContent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInput,
+    MatError,
+    MatLabel,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatAnchor,
+    MatButton,
+    AddressFormComponent
+  ],
+  providers: [DatePipe],
+  templateUrl: './add-user-view.component.html',
+  styleUrl: './add-user-view.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddUserViewComponent implements OnInit {
   // form
@@ -96,6 +93,7 @@ export class AddUserViewComponent implements OnInit {
       }))
     };
   }
+
   /* users form - end */
 
   /* address form */
@@ -105,7 +103,7 @@ export class AddUserViewComponent implements OnInit {
       country: null,
       cityId: null,
       street: ''
-    }, );
+    },);
   }
 
   addAddress(): void {
@@ -117,6 +115,7 @@ export class AddUserViewComponent implements OnInit {
       this.userForm.controls.addresses.removeAt(index);
     }
   }
+
   /* address form - end */
 
   navigateToUsersListPage(): void {

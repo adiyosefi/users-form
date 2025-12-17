@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -29,7 +29,8 @@ import {ICityModel} from "../../../../api/cities/models/i-city.model";
         MatButton
     ],
     templateUrl: './add-city-dialog.component.html',
-    styleUrl: './add-city-dialog.component.scss'
+    styleUrl: './add-city-dialog.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddCityDialogComponent implements OnInit {
   cityForm: FormGroup<ICityFormModel>;
